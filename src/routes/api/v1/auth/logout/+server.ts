@@ -11,7 +11,10 @@ export const POST: RequestHandler = async ({ locals: { supabase, getSession } })
 
 		await supabase.auth.signOut();
 
+		//refresh everything
 		goto('/');
+		return new Response(JSON.stringify({ message: 'Logged out' }));
+		
 
 	} catch (error) {
 		return new Response(JSON.stringify({ error: error }), {

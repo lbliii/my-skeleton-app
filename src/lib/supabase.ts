@@ -20,7 +20,10 @@ export const signIn = async (email: string) => {
 		
 		let { data, error } = await supabase.auth.signInWithOtp(
 			{
-				email: email
+				email: email,
+				options: {
+					emailRedirectTo: '/'
+				}
 			})
 		if (error) throw error;
 		return { data };
@@ -292,6 +295,7 @@ export const getPlayers = async () => {
 
 export const getPlayer = async (player_id: string): Promise<{ data: Player } | void> => {
 	try {
+	
 		const { data, error } = await supabase.from('players').select().eq('player_id', player_id).single();
 
 		if (data === null) {
@@ -300,7 +304,7 @@ export const getPlayer = async (player_id: string): Promise<{ data: Player } | v
 		}
 		
 		if (error) throw error;
-		return { data: data[0] };
+		return { data: data };
 	} catch (error) {
 		handleError(error);
 	}

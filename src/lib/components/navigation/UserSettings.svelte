@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { popup, Avatar, ListBox, ListBoxItem, LightSwitch } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import { ApiVersion } from '$lib/enums'
 
 	export let session: any;
 
@@ -17,13 +17,17 @@
 		closeQuery: '.listbox-item'
 	};
 
-	function handleLogout() {
+	async function handleLogout() {
 		try {
-				
-			
-		
+			fetch(`/api/${ApiVersion}/auth/logout`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+
 		} catch (error) {
-			console.log(error);
+			
 		}
 	
 	}
@@ -31,7 +35,7 @@
 </script>
 
 <div class="" use:popup={popupCombobox}>
-	<Avatar width="w-10" />
+	<Avatar width="w-10" initials="lb"/>
 </div>
 
 <div class="card shadow-xl py-2" data-popup="combobox">
