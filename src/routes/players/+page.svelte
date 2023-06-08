@@ -3,7 +3,7 @@
 	export let data;
 </script>
 
-<SignIn />
+<SignIn session={data.session}/>
 
 
 
