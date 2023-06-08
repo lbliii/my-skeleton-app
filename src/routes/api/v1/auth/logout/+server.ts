@@ -1,15 +1,14 @@
-import type { RequestHandler } from '@sveltejs/kit';
+import { fail, type RequestHandler } from '@sveltejs/kit';
 import { goto } from '$app/navigation';
 
-export const POST: RequestHandler = async ({ locals: { supabase, getSession } }) => {
+export const POST: RequestHandler = async ({ locals: { sb, session } }) => {
 	try {
-		const session = await getSession();
 
 		if (!session) {
-			throw error(401, { message: 'Unauthorized' });
+			throw fail(401, { message: 'Unauthorized' });
 		}
 
-		await supabase.auth.signOut();
+		await sb.auth.signOut();
 
 		goto('/');
 

@@ -49,7 +49,7 @@
 					Logout
 				</a>
 			{:else}
-				<a href="/login">Login</a>
+				<a href="/loginWithSupabase">Login</a>
 			{/if}
 		</ListBoxItem>
 	</ListBox>

@@ -24,25 +24,25 @@
 	import Navigation from '$lib/components/navigation/Navigation.svelte';
 	import threadCRUD from '$lib/components/thread/ThreadCRUD.svelte';
 	import UserSettings from '$lib/components/navigation/UserSettings.svelte';
+	
+	import { supabase } from '$lib/supabase';
+	import { invalidateAll } from "$app/navigation";
 
 	
 
 	export let data;
 	console.log('layout page ', data);
 
-	$: ({ supabase, session } = data);
+	$: ({ session } = data);
 
-	onMount(() => {
-		const { 
-			data: {subscription},
-		 } = supabase.auth.onAuthStateChange((event, _session) => {
-			if (_session?.expires_at !== session?.expires_at) {
-        		invalidate('supabase:auth');
-      		}
-		});
+	// Create a subscription to taken action when our Auth State is changed while login/logout
+  onMount(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      invalidateAll();
+    });
 
-		return () => subscription.unsubscribe();
-	});
+    return () => subscription.unsubscribe();
+  })
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		// Custom Modal 1
