@@ -17,7 +17,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export const signIn = async (email: string) => {
 	try {
-		
 		let { data, error } = await supabase.auth.signInWithOtp(
 			{
 				email: email,
@@ -32,7 +31,6 @@ export const signIn = async (email: string) => {
 	}
 };
 
- 
 
 // Character Actions
 
@@ -293,7 +291,7 @@ export const getPlayers = async () => {
 	}
 };
 
-export const getPlayer = async (player_id: string): Promise<{ data: Player } | void> => {
+export const getPlayer = async (player_id: string ): Promise<{ data: Player } | void> => {
 	try {
 	
 		const { data, error } = await supabase.from('players').select().eq('player_id', player_id).single();

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { popup, Avatar, ListBox, ListBoxItem, LightSwitch } from '@skeletonlabs/skeleton';
+	import { popup, Avatar, ListBox, ListBoxItem, LightSwitch, } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 	import { ApiVersion } from '$lib/enums'
 

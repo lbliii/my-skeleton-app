@@ -4,7 +4,7 @@
   console.log("player page ", data)
 
   let player: Player | undefined = data?.player
-  console.log(player)
+  // console.log(player)
 
 </script>
 

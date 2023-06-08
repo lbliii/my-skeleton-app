@@ -1,8 +1,9 @@
 import { getPlayer } from '$lib/supabase';
 
+export const GET = async ({params }) => {
+	// const token = request.headers.get('x-supabase-auth') || '';
+	// const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, token);
 
-export const GET = async ({ locals:{ supabase, getSession}, params }) => {
-	const session = await getSession()
 	const res = await getPlayer(params.id);
 	const player = res?.data;
 	if (player === undefined) {
@@ -62,8 +63,6 @@ GET.satisfies = 'RequestHandler';
 // 	return new Response(JSON.stringify(existingData));
 // };
 
-
-
 export const PUT = async ({ params }) => {
 	const body = `The Player ID is: ${params.id}`;
 	return new Response(JSON.stringify({ body }));
@@ -77,4 +76,3 @@ export const DELETE = async ({ params }) => {
 };
 
 DELETE.satisfies = 'RequestHandler';
-
