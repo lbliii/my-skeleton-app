@@ -1,13 +1,14 @@
-import { SupabaseClient, Session } from '@supabase/supabase-js';
+import type { TypedSupabaseClient } from '@supabase/auth-helpers-sveltekit';
+import type { Session } from '@supabase/supabase-js';
 
 declare global {
-  namespace App {
+  declare namespace App {
     interface Locals {
-      supabase: SupabaseClient;
-      getSession(): Promise<Session | null>;
+      sb: TypedSupabaseClient;
+      session: Session;
     }
     interface PageData {
-      session: Session | null;
+      session: import('@supabase/supabase-js').Session | null;
     }
     // interface Error {}
     // interface Platform {}

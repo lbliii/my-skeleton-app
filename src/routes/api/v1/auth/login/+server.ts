@@ -1,18 +1,14 @@
-import type { RequestHandler } from '@sveltejs/kit';
+import { fail, type RequestHandler } from '@sveltejs/kit';
 
-
-export const POST: RequestHandler = async ({ locals: { supabase, getSession }, request }) => {
+export const POST: RequestHandler = async ({ locals: { sb, session }, request }) => {
 	try {
 		const { email } = await request.json()
-		console.log('email', email)
-		const session = await getSession();
-		console.log('session', session)
 
 		if (!session) {
-			throw error(401, { message: 'Unauthorized' });
+			throw fail(401, { message: 'Unauthorized' });
 		}
 
-		let { data, error } = await supabase.auth.signInWithOtp(email);
+		let { data, error } = await sb.auth.signInWithOtp(email);
 
 		return new Response(JSON.stringify(data));
 	}

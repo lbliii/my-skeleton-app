@@ -45,11 +45,11 @@
 		</ListBoxItem>
 		<ListBoxItem bind:group={comboboxValue} name="medium" value="television">
 			{#if session?.user?.id}
-				<a href="/" on:click|preventDefault={handleLogout}>
-					Logout
-				</a>
+				<form action="/logout" method="POST">
+					<button type="submit" class="">Logout</button>
+				</form>
 			{:else}
-				<a href="/login">Login</a>
+				<a href="/loginWithSupabase">Login</a>
 			{/if}
 		</ListBoxItem>
 	</ListBox>
