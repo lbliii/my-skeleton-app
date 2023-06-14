@@ -5,7 +5,7 @@ declare global {
   declare namespace App {
     interface Locals {
       sb: TypedSupabaseClient;
-      session: Session;
+      session: Session | null; 
     }
     interface PageData {
       session: import('@supabase/supabase-js').Session | null;
