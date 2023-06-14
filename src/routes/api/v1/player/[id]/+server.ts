@@ -20,10 +20,6 @@ export const GET: RequestHandler = async ({ locals: { sb, session }, params }) =
 		.single();
 
 	if (existingError) {
-		throw existingError;
-	}
-
-	if (!existingData) {
 		// If no player with this ID exists, generate a new alias and insert it into the database
 		const alias = generateAlias();
 
@@ -38,7 +34,7 @@ export const GET: RequestHandler = async ({ locals: { sb, session }, params }) =
 		}
 
 		return new Response(JSON.stringify(newData));
-	}
+	}	
 
 	// Return the existing player data
 	return new Response(JSON.stringify(existingData));
