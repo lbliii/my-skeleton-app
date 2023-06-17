@@ -34,18 +34,21 @@ export interface Forum {
 
 export interface Forums extends Array<Forum> {}
 
-export interface Player {
+export interface Player extends PlayerProfile {
 	player_id: string;
+	createdAt: string;
+	updated_at?: string;
+}
+
+export interface PlayerProfile {
 	alias: string;
 	age?: number;
 	avatar?: string;
 	bio?: string;
 	characters?: Character[];
-	createdAt: string;
 	dislikes?: string;
 	likes?: string;
 	time_zone?: string;
-	updated_at?: string;
 }
 
 export interface Players extends Array<Player> {}

@@ -5,8 +5,6 @@
   import PlayerCharacterRowList from '$lib/components/player/PlayerCharacterRowList.svelte';
   import {modalCharacterCRUD, modalPlayerCRUD, modalThreadCRUD} from '$lib/utils'
 
-
-
   export let data: { player: Player, session:SBSession, threads: Threads, characters: Characters };
 
   let player: Player = data?.player

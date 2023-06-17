@@ -44,3 +44,20 @@ export type Species =
 	| 'Other';
 
 export const ApiVersion = 'v1';
+
+export type TimeZone =
+	| 'GMT'
+	| 'UTC'
+	| 'EST'
+	| 'EDT'
+	| 'CST'
+	| 'CDT'
+	| 'MST'
+	| 'MDT'
+	| 'PST'
+	| 'PDT'
+	| 'IST'
+	| 'CET'
+	| 'JST'
+	| 'AEST'
+	| 'AWST'

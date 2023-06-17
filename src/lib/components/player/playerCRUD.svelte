@@ -11,6 +11,8 @@
 	// Form Data
 	const formData = {
 		alias: $modalStore[0]?.value?.player.alias ?? "Test Player",
+		age: $modalStore[0]?.value?.player.age ?? "32",
+		time_zone: $modalStore[0]?.value?.player.time_zone ?? "EST",
 		likes: $modalStore[0]?.value?.player.likes ?? "Test Likes",
 		dislikes: $modalStore[0]?.value?.player.dislikes ?? "Test Dislikes",
 		bio: $modalStore[0]?.value?.player.bio ?? "Test Bio" ,
@@ -26,10 +28,15 @@
 	const cBase = 'card p-4 w-modal shadow-xl space-y-4';
 	const cHeader = 'text-2xl font-bold';
 	const cForm = 'border border-surface-500 p-4 space-y-4 rounded-container-token';
+
+	
+	
+
+	
 </script>
 
 <div class="{cBase}">
-	<header class={cHeader}>{$modalStore[0]?.title ?? '(title missing)'}</header>
+	<header class={cHeader}>{$modalStore[0]?.title ?? 'Closing..'}</header>
 	<article>{$modalStore[0]?.body ?? '(body missing)'}</article>
 	<!-- Enable for debugging: -->
 	<!-- <pre>{JSON.stringify(formData, null, 2)}</pre> -->
@@ -38,6 +45,22 @@
 			<span>Alias</span>
 			<input class="input" type="text" bind:value={formData.alias} placeholder="Your Alias Here" />
 		</label>
+		<div class="flex flex-row space-x-4">
+			<label class="label flex-grow">
+				<span>Age</span>
+				<input class="input" type="text" bind:value={formData.age} placeholder="Your Age Here" />
+			</label>
+			<label class="label flex flex-col flex-grow">
+				<!-- TODO: MAKE AS A DROPDOWN/SELECT -->
+				<span>Time Zone</span>
+				<select bind:value={formData.time_zone} class="select w-auto">
+					{#each ['GMT', 'EST', 'PST',] as tz}
+						<option value={tz}>{tz}</option>
+					{/each}
+				</select>
+			</label>
+			
+		</div>
 		<label class="label">
 			<span>Likes</span>
 			<textarea class="input textarea" rows="2"  bind:value={formData.likes} placeholder="Your List of Genre/Plot Likes Here" />

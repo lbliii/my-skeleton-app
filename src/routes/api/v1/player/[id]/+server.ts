@@ -48,15 +48,12 @@ export const PUT: RequestHandler = async ({ locals: { sb, session }, params, req
 		throw error(401, { message: 'Unauthorized' });
 	}
 
-  	const body = await request.json();
-
-	console.log("BODY!!! ", {...body})
-	console.log(player_id)
+  	const playerProfile = await request.json();
 
 	// Query the database for the player with the given ID
 	const { data, error: editPlayerError } = await sb
 		.from('players')
-		.update({...body})
+		.update({ ...playerProfile })
 		.eq('player_id', player_id)
 		.select()
 		.single();
@@ -64,7 +61,6 @@ export const PUT: RequestHandler = async ({ locals: { sb, session }, params, req
 	if (editPlayerError) {
 		throw editPlayerError
 	}
-		// Return the existing player data
 		return new Response(JSON.stringify(data));
 }
 

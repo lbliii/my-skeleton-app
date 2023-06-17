@@ -2,6 +2,7 @@ import { modalStore } from '@skeletonlabs/skeleton';
 import type { ModalSettings } from '@skeletonlabs/skeleton';
 import { ApiVersion } from '$lib/enums';
 import type {Character, Player, Forum} from '$lib/types'
+import { playerProfileStore } from '$lib/stores';
 
 export const handleError = (error: any): any => {
 	console.error(error);
@@ -99,17 +100,16 @@ export function modalCharacterCRUD(character?: Character): void {
 			character: character
 		},
 		response: (r: any) => {
-			if (r) console.log('response:', r);
-			// send a post request to the server to create a thread
-			// then update the forum threads
-
-			fetch(`/api/${ApiVersion}/character/`, {
-				method: `${character ? 'PUT' : 'POST'}`,
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(r)
-			});
+			if (r) {
+				console.log('response:', r);
+				fetch(`/api/${ApiVersion}/character/`, {
+					method: `${character ? 'PUT' : 'POST'}`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(r)
+				});
+			}
 		}
 	};
 	modalStore.trigger(prompt);
@@ -125,21 +125,22 @@ export function modalPlayerCRUD(player:Player): void {
 			player: player
 		},
 		response: (r: any) => {
-			if (r) console.log('response:', r);
-			// send a post request to the server to create a thread
-			// then update the forum threads
-
-			fetch(`/api/${ApiVersion}/player/${player.player_id}`, {
-				method: `${player ? 'PUT' : 'POST'}`,
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(r)
-			});
+			if (r) {
+				console.log('response:', r);
+				fetch(`/api/${ApiVersion}/player/${player.player_id}`, {
+					method: `${player ? 'PUT' : 'POST'}`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(r)
+				});
+				playerProfileStore.set(r);
+			}
 		}
 	};
 	modalStore.trigger(prompt);
 }
+
 
 export function modalThreadCRUD(forum?:Forum): void {
 	const prompt: ModalSettings = {
@@ -152,17 +153,16 @@ export function modalThreadCRUD(forum?:Forum): void {
 			forum: forum
 		},
 		response: (r: any) => {
-			if (r) console.log('response:', r);
-			// send a post request to the server to create a thread
-			// then update the forum threads
-
-			fetch(`/api/${ApiVersion}/thread`, {
-				method: `${forum? 'PUT' : 'POST'}`,
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(r)
-			});
+			if (r) {
+				console.log('response:', r);
+				fetch(`/api/${ApiVersion}/thread`, {
+					method: `${forum ? 'PUT' : 'POST'}`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(r)
+				});
+			}
 		}
 	};
 	modalStore.trigger(prompt);
