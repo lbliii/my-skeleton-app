@@ -4,7 +4,6 @@
 	import '@skeletonlabs/skeleton/styles/all.css';
 	import '../app.postcss';
 	// Svelte Global Imports
-	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	// Skeleton Global Imports
@@ -22,7 +21,10 @@
 
 	// App-specific components
 	import Navigation from '$lib/components/navigation/Navigation.svelte';
+	// custom Modals
 	import threadCRUD from '$lib/components/thread/ThreadCRUD.svelte';
+	import playerCRUD from '$lib/components/player/PlayerCRUD.svelte';
+	
 	import UserSettings from '$lib/components/navigation/UserSettings.svelte';
 	
 	import { supabase } from '$lib/supabase';
@@ -49,6 +51,14 @@
 		threadCRUD: {
 			// Pass a reference to your custom component
 			ref: threadCRUD,
+			// Add the component properties as key/value pairs
+			props: {},
+			// Provide a template literal for the default component slot
+			slot: ``
+		},
+		playerCRUD: {
+			// Pass a reference to your custom component
+			ref: playerCRUD,
 			// Add the component properties as key/value pairs
 			props: {},
 			// Provide a template literal for the default component slot

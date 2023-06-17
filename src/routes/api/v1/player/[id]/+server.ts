@@ -5,8 +5,7 @@ import { error } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ locals: { sb, session }, params }) => {
 	const player_id = params.id;
-	console.log('player_id', player_id);
-
+	
 	if (!session) {
 		// the user is not signed in
 		throw error(401, { message: 'Unauthorized' });
