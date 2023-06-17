@@ -1,11 +1,21 @@
 <script lang="ts">
-  import type { Player } from '$lib/types'
-  export let data: { player?: Player };
-  // console.log("player page ", data)
+  import type { Player, Threads, SBSession } from '$lib/types'
 
-  let player: Player | undefined = data?.player
+  import PlayerCardDetails from '$lib/components/player/playerCardDetails.svelte'
+	import PlayerThreadRowList from '$lib/components/player/playerThreadRowList.svelte';
+
+  
+  export let data: { player: Player, session:SBSession, threads: Threads };
+  console.log(data)
+
+  let player: Player = data?.player
+  let threads: Threads = data?.threads
+  let sbSession = data?.session
 
 </script>
 
-<h1>{player?.alias}</h1>
+<div class="space-y-4">
+  <PlayerCardDetails {player} />
+  <PlayerThreadRowList {sbSession} {player} {threads} />
+</div>
 

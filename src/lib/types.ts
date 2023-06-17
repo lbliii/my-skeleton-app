@@ -35,7 +35,7 @@ export interface Forum {
 export interface Forums extends Array<Forum> {}
 
 export interface Player {
-	id: string;
+	player_id: string;
 	alias: string;
 	age?: number;
 	avatar?: string;
@@ -44,7 +44,6 @@ export interface Player {
 	createdAt: string;
 	dislikes?: string;
 	likes?: string;
-	threads?: Thread[];
 	time_zone?: string;
 	updated_at?: string;
 }
@@ -81,4 +80,20 @@ export interface User {
 	id: number;
 	email: string;
 	role: string;
+}
+
+export interface SBSession {
+	accessToken: string;
+	expires_at: number;
+	provider_referesh_token: string,
+	provider_token: string,
+	refresh_token: string,
+	token_type: string
+	user: {
+		aud: string,
+		email: string,
+		id: string,
+		role: string,
+		session_id: string
+	}
 }
