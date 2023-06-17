@@ -22,8 +22,9 @@
 	// App-specific components
 	import Navigation from '$lib/components/navigation/Navigation.svelte';
 	// custom Modals
-	import threadCRUD from '$lib/components/thread/ThreadCRUD.svelte';
-	import playerCRUD from '$lib/components/player/PlayerCRUD.svelte';
+	import ThreadCRUD from '$lib/components/thread/ThreadCRUD.svelte';
+	import PlayerCRUD from '$lib/components/player/PlayerCRUD.svelte';
+	import CharacterCRUD from '$lib/components/character/CharacterCRUD.svelte';
 	
 	import UserSettings from '$lib/components/navigation/UserSettings.svelte';
 	
@@ -48,9 +49,17 @@
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		// Custom Modal 1
+		characterCRUD: {
+			// Pass a reference to your custom component
+			ref: CharacterCRUD,
+			// Add the component properties as key/value pairs
+			props: {},
+			// Provide a template literal for the default component slot
+			slot: ``
+		},
 		threadCRUD: {
 			// Pass a reference to your custom component
-			ref: threadCRUD,
+			ref: ThreadCRUD,
 			// Add the component properties as key/value pairs
 			props: {},
 			// Provide a template literal for the default component slot
@@ -58,7 +67,7 @@
 		},
 		playerCRUD: {
 			// Pass a reference to your custom component
-			ref: playerCRUD,
+			ref: PlayerCRUD,
 			// Add the component properties as key/value pairs
 			props: {},
 			// Provide a template literal for the default component slot
