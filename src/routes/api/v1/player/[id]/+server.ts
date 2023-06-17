@@ -12,46 +12,60 @@ export const GET: RequestHandler = async ({ locals: { sb, session }, params }) =
 	}
 
 	// Query the database for the player with the given ID
-	const { data: existingData, error: existingError } = await sb
+	const { data: player, error: noPlayer } = await sb
 		.from('players')
 		.select('*')
 		.eq('player_id', player_id)
 		.single();
 
-	if (existingError) {
+	if (noPlayer) {
 		// If no player with this ID exists, generate a new alias and insert it into the database
 		const alias = generateAlias();
 
-		const { data: newData, error: newError } = await sb
+		const { data: newPlayer, error: newPlayerError } = await sb
 			.from('players')
 			.insert({ player_id, alias })
 			.select('*')
 			.single();
 
-		if (newError) {
-			throw newError;
+		if (newPlayerError) {
+			throw newPlayerError;
 		}
 
-		return new Response(JSON.stringify(newData));
+		return new Response(JSON.stringify(newPlayer));
 	}	
 
 	// Return the existing player data
-	return new Response(JSON.stringify(existingData));
+	return new Response(JSON.stringify(player));
 };
 
 
+export const PUT: RequestHandler = async ({ locals: { sb, session }, params, request }) => {
+	const player_id = params.id;
+	
+	if (!session) {
+		// the user is not signed in
+		throw error(401, { message: 'Unauthorized' });
+	}
 
-export const PUT = async ({ params }) => {
-	const body = `The Player ID is: ${params.id}`;
-	return new Response(JSON.stringify({ body }));
-};
+  	const body = await request.json();
 
-PUT.satisfies = 'RequestHandler';
+	console.log("BODY!!! ", {...body})
+	console.log(player_id)
 
-export const DELETE = async ({ params }) => {
-	const body = `The Player ID is: ${params.id}`;
-	return new Response(JSON.stringify({ body }));
-};
+	// Query the database for the player with the given ID
+	const { data, error: editPlayerError } = await sb
+		.from('players')
+		.update({...body})
+		.eq('player_id', player_id)
+		.select()
+		.single();
 
-DELETE.satisfies = 'RequestHandler';
+	if (editPlayerError) {
+		throw editPlayerError
+	}
+		// Return the existing player data
+		return new Response(JSON.stringify(data));
+}
+
 

@@ -104,7 +104,7 @@ export function modalCharacterCRUD(character?: Character): void {
 			// then update the forum threads
 
 			fetch(`/api/${ApiVersion}/character/`, {
-				method: 'POST',
+				method: `${character ? 'PUT' : 'POST'}`,
 				headers: {
 					'Content-Type': 'application/json'
 				},
@@ -130,7 +130,7 @@ export function modalPlayerCRUD(player:Player): void {
 			// then update the forum threads
 
 			fetch(`/api/${ApiVersion}/player/${player.player_id}`, {
-				method: 'POST',
+				method: `${player ? 'PUT' : 'POST'}`,
 				headers: {
 					'Content-Type': 'application/json'
 				},
@@ -157,7 +157,7 @@ export function modalThreadCRUD(forum?:Forum): void {
 			// then update the forum threads
 
 			fetch(`/api/${ApiVersion}/thread`, {
-				method: 'POST',
+				method: `${forum? 'PUT' : 'POST'}`,
 				headers: {
 					'Content-Type': 'application/json'
 				},
