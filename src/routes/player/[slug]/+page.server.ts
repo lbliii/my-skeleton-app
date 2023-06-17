@@ -1,9 +1,16 @@
-import type { Player } from '$lib/types';
+import type { Player, Threads } from '$lib/types';
 import {ApiVersion} from '$lib/enums';
 
 
 export async function load(event) {
-    const res = await event.fetch(`/api/${ApiVersion}/player/${event.params.slug}`, {
+    const fetchPlayer = await event.fetch(`/api/${ApiVersion}/player/${event.params.slug}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+	const fetchThreads = await event.fetch(`/api/${ApiVersion}/player/${event.params.slug}/threads`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
@@ -11,6 +18,9 @@ export async function load(event) {
 		});
 
     return {
-        player: await res.json() as Player
-    };
+			player: await fetchPlayer.json() as Player,
+			threads: await fetchThreads.json() as Threads
+		};
 }
+
+// await fetchThreads.json() as Threads

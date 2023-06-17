@@ -37,12 +37,11 @@
 <div class="card shadow-xl py-2" data-popup="combobox">
 	<!-- Listbox -->
 	<ListBox rounded="rounded-none">
-		<ListBoxItem bind:group={comboboxValue} name="medium" value="books">
-			<a href="/player/{session?.user?.id}">Profile</a>
-		</ListBoxItem>
-		<ListBoxItem bind:group={comboboxValue} name="medium" value="movies">
-			<LightSwitch />
-		</ListBoxItem>
+		{#if session?.user?.id}
+			<ListBoxItem bind:group={comboboxValue} name="medium" value="books">
+				<a href="/player/{session?.user?.id}">Profile</a>
+			</ListBoxItem>
+		{/if}
 		<ListBoxItem bind:group={comboboxValue} name="medium" value="television">
 			{#if session?.user?.id}
 				<form action="/logout" method="POST">
@@ -51,6 +50,9 @@
 			{:else}
 				<a href="/loginWithSupabase">Login</a>
 			{/if}
+		</ListBoxItem>
+		<ListBoxItem bind:group={comboboxValue} name="medium" value="movies">
+			<LightSwitch />
 		</ListBoxItem>
 	</ListBox>
 	<!-- Arrow -->

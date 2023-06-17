@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { ApiVersion } from '$lib/enums';
   import ForumDetailsCard from "$lib/components/forum/ForumDetailsCard.svelte";
   import { modalStore } from "@skeletonlabs/skeleton";
   import type { ModalSettings } from "@skeletonlabs/skeleton";
@@ -20,7 +21,7 @@
         // send a post request to the server to create a thread
         // then update the forum threads
 
-        fetch('/api/thread', {
+        fetch(`/api/${ApiVersion}/thread`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -36,6 +37,6 @@
 </script>
 
 <ForumDetailsCard forum={forum} />
-<div class="flex justify-end">
+<div class="flex flex-row-reverse">
   <button class="btn variant-ghost m-2" on:click={modalCRUD}>Create Thread</button>
 </div>
