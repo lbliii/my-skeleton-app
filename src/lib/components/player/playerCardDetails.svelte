@@ -16,7 +16,7 @@
             <div class="flex flex-row justify-between items-center">
                 <h2 class="text-center flex-grow ml-12">{$playerProfileStore.alias}</h2>
                 {#if player.player_id == sbSession.user.id}
-                    <button class="chip variant-soft shadow-lg" on:click={() => modalPlayerCRUD(player)}>edit</button>
+                    <button class="chip variant-soft shadow-lg" on:click={() => modalPlayerCRUD($playerProfileStore)}>edit</button>
                 {/if}
             </div>
         <div class="flex flex-row space-x-1 justify-center">

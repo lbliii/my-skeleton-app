@@ -1,6 +1,6 @@
 import type {Gender, RelationshipStatus, Soul, Species} from './enums';
 
-export interface Character extends CharacterDetails{
+export interface Character extends CharacterProfile{
 	id: number;
 	created_at: string;
 	player: Player;
@@ -8,7 +8,7 @@ export interface Character extends CharacterDetails{
 	updated_at?: string;
 }
 
-export interface CharacterDetails {
+export interface CharacterProfile{
 	age?: number;
 	avatar?: string;
 	bio?: string;
@@ -39,7 +39,7 @@ export interface Forums extends Array<Forum> {}
 
 export interface Player extends PlayerProfile {
 	player_id: string;
-	createdAt: string;
+	created_at: string;
 	updated_at?: string;
 }
 

@@ -1,26 +1,25 @@
 import { error } from '@sveltejs/kit';
-import type { Character } from '$lib/types';
+import type { RequestHandler } from './$types';
 
 
-export const GET = async ({ params }) => {
-	const body = `The Character ID is: ${params.id}`;
-	return new Response(JSON.stringify({ body }));
+export const GET: RequestHandler = async ({ locals: { sb, session }, params }) => {
+	const character_id = params.id;
+
+	if (!session) {
+		// the user is not signed in
+		throw error(401, { message: 'Unauthorized' });
+	}
+
+	// Query the database for the player with the given ID
+	const { data: character, error: noCharacter } = await sb
+		.from('characters')
+		.select('*')
+		.eq('id', character_id)
+		.single();
+
+	if (noCharacter) {
+		throw error(404, { message: 'Character not found' });
+	}
+
+	return new Response(JSON.stringify(character));
 };
-
-GET.satisfies = 'RequestHandler';
-
-export const PUT = async ({ params }) => {
-	const body = `The Character ID is: ${params.id}`;
-	return new Response(JSON.stringify({ body }));
-};
-
-PUT.satisfies = 'RequestHandler';
-
-export const DELETE = async ({ params }) => {
-	const body = `The Character ID is: ${params.id}`;
-	return new Response(JSON.stringify({ body }));
-};
-
-DELETE.satisfies = 'RequestHandler';
-
-

@@ -1,7 +1,7 @@
 import { modalStore } from '@skeletonlabs/skeleton';
 import type { ModalSettings } from '@skeletonlabs/skeleton';
 import { ApiVersion } from '$lib/enums';
-import type {Character, Player, Forum, Forums, Thread} from '$lib/types'
+import type {Character, PlayerProfile, Forum, Forums, Thread} from '$lib/types'
 import { playerProfileStore } from '$lib/stores';
 
 export const handleError = (error: any): any => {
@@ -86,7 +86,7 @@ export function modalCharacterCRUD(character?: Character): void {
 
 	let title
 	if (character){
-		title = `Edit ${character.firstName}`
+		title = `Edit ${character.first_name}`
 	} else {
 		title = 'Create a Character'
 	}
@@ -115,7 +115,7 @@ export function modalCharacterCRUD(character?: Character): void {
 	modalStore.trigger(prompt);
 }
 
-export function modalPlayerCRUD(player:Player): void {
+export function modalPlayerCRUD(player:PlayerProfile): void {
 	const prompt: ModalSettings = {
 		type: 'component',
 		component: 'playerCRUD',
