@@ -124,7 +124,7 @@
 	</svelte:fragment>
 
 	<!-- Page Route Content -->
-	<main class="mx-12 my-6">
+	<main class="mx-3 md:mx-12 my-6">
     	<slot />
 	</main>
 </AppShell>

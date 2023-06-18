@@ -1,16 +1,24 @@
 <script lang="ts">
 	import { playerProfileStore } from '$lib/stores';
-    import type { Player } from '$lib/types'
+    import type { Player, SBSession } from '$lib/types'
+    import { modalPlayerCRUD } from '$lib/utils'
 
     export let player: Player 
+    export let sbSession: SBSession
 
     $playerProfileStore = player
     $: $playerProfileStore
 </script>
 
 <div class="card variant-ghost-surface space-y-4">
-	<header class="card-header space-y-4">
-        <h2 class="text-center">{$playerProfileStore.alias}</h2>
+	<header class="card-header">
+        <div class="flex flex-col space-y-4">
+            <div class="flex flex-row justify-between items-center">
+                <h2 class="text-center flex-grow ml-12">{$playerProfileStore.alias}</h2>
+                {#if player.player_id == sbSession.user.id}
+                    <button class="chip variant-soft shadow-lg" on:click={() => modalPlayerCRUD(player)}>edit</button>
+                {/if}
+            </div>
         <div class="flex flex-row space-x-1 justify-center">
             <div class="badge variant-filled-primary ">{$playerProfileStore.age}</div>
             <div class="badge variant-filled-secondary">{$playerProfileStore.time_zone}</div>

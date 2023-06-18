@@ -1,13 +1,22 @@
 <script lang="ts">
-    import type { Player, Threads, SBSession } from '$lib/types'
+    import type { Player, Threads, SBSession, Forums } from '$lib/types'
     export let threads: Threads
+    export let forums: Forums
     export let player: Player 
     export let sbSession: SBSession
+    import {modalThreadCRUD} from '$lib/utils'
 </script>
 
 <div class="card variant-ghost-surface">
     <div class="flex flex-col space-y-4 p-4">
-        <h3>threads</h3>
+        <div class="flex flex-row flex-wrap justify-between">
+            <h3>threads</h3>
+            {#if player.player_id == sbSession.user.id}
+                <div class="flex flex-row-reverse">
+                    <button class="chip variant-soft shadow-lg" on:click={() => modalThreadCRUD({forums:forums})}>create thread</button>
+                </div>
+            {/if}
+        </div>
         {#if threads.length < 1}
             <div class="card card-hover variant-ghost p-2">
                 {#if player.player_id == sbSession.user.id} 

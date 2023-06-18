@@ -1,7 +1,7 @@
 import { modalStore } from '@skeletonlabs/skeleton';
 import type { ModalSettings } from '@skeletonlabs/skeleton';
 import { ApiVersion } from '$lib/enums';
-import type {Character, Player, Forum} from '$lib/types'
+import type {Character, Player, Forum, Forums, Thread} from '$lib/types'
 import { playerProfileStore } from '$lib/stores';
 
 export const handleError = (error: any): any => {
@@ -142,21 +142,25 @@ export function modalPlayerCRUD(player:Player): void {
 }
 
 
-export function modalThreadCRUD(forum?:Forum): void {
+export function modalThreadCRUD(options: { forums?: Forums; forum?: Forum; thread?: Thread }): void {
+	const { forums, forum, thread } = options;
+	
 	const prompt: ModalSettings = {
 		type: 'component',
 		component: 'threadCRUD',
-		title: `Create a ${forum?.title} Thread`,
+		title: forum?.title ? `Create a ${forum.title} Thread` : 'Create a Thread',
 		body: 'Complete the form below and then press submit.',
 		value: {
 			characters: [],
-			forum: forum
+			forum: forum,
+			forums: forums,
+			thread: thread
 		},
 		response: (r: any) => {
 			if (r) {
 				console.log('response:', r);
 				fetch(`/api/${ApiVersion}/thread`, {
-					method: `${forum ? 'PUT' : 'POST'}`,
+					method: `${thread ? 'PUT' : 'POST'}`,
 					headers: {
 						'Content-Type': 'application/json'
 					},

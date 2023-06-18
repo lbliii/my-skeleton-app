@@ -51,7 +51,6 @@
 				<input class="input" type="text" bind:value={formData.age} placeholder="Your Age Here" />
 			</label>
 			<label class="label flex flex-col flex-grow">
-				<!-- TODO: MAKE AS A DROPDOWN/SELECT -->
 				<span>Time Zone</span>
 				<select bind:value={formData.time_zone} class="select w-auto">
 					{#each ['GMT', 'EST', 'PST',] as tz}

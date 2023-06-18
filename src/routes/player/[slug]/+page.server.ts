@@ -1,4 +1,4 @@
-import type { Player, Threads } from '$lib/types';
+import type { Player, Threads, Forums } from '$lib/types';
 import {ApiVersion} from '$lib/enums';
 
 
@@ -17,9 +17,17 @@ export async function load(event) {
 			}
 		});
 
+	const fetchForums = await event.fetch(`/api/${ApiVersion}/forums`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
+
     return {
 			player: await fetchPlayer.json() as Player,
-			threads: await fetchThreads.json() as Threads
+			threads: await fetchThreads.json() as Threads,
+			forums: await fetchForums.json() as Forums
 		};
 }
 

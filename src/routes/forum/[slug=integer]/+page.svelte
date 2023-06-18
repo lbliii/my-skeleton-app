@@ -10,5 +10,5 @@
 
 <ForumDetailsCard forum={forum} />
 <div class="flex flex-row-reverse">
-  <button class="btn variant-ghost m-2" on:click={() => modalThreadCRUD(forum)}>Create Thread</button>
+  <button class="btn variant-ghost m-2" on:click={() => modalThreadCRUD({forum:forum})}>Create Thread</button>
 </div>

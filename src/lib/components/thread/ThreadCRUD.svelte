@@ -12,6 +12,7 @@
 	const formData = {
 		player: $modalStore[0]?.value?.player ?? "Test Player",
 		characterId: $modalStore[0]?.value?.characters[0] ?? { id: 1, firstName: 'Test', lastName: 'Character' },
+		forums: $modalStore[0]?.value?.forums ?? [],
 		forumId: $modalStore[0]?.value?.forum?.id,
 		title: '',
 		description: '',
@@ -36,18 +37,31 @@
 	<!-- Enable for debugging: -->
 	<!-- <pre>{JSON.stringify(formData, null, 2)}</pre> -->
 	<form class="modal-form {cForm}">
-		<label class=label>
-			<span>Character</span>
-			<select class="select" bind:value={formData.characterId} required>
-				{#if $modalStore[0]?.value?.characters.length === 0}
-					<option value="0">No Characters</option>
-				{:else if $modalStore[0]?.value?.characters.length > 0}
-					{#each $modalStore[0]?.value?.characters as character}
-						<option value={character.id}>{character.firstName} {character.lastName}</option>
-					{/each}
-				{/if}
-			</select>
-		</label>
+		<div class="flex flex-row space-x-4">
+			<label class="label flex-grow">
+				<span>Character</span>
+				<select class="select" bind:value={formData.characterId} required>
+					{#if $modalStore[0]?.value?.characters.length === 0}
+						<option value="0">No Characters</option>
+					{:else if $modalStore[0]?.value?.characters.length > 0}
+						{#each $modalStore[0]?.value?.characters as character}
+							<option value={character.id}>{character.firstName} {character.lastName}</option>
+						{/each}
+					{/if}
+				</select>
+			</label>
+			{#if formData.forums.length > 1}
+				<label class="label flex-grow">
+					<span>Forum</span>
+					<select class="select" bind:value={formData.forumId} required>
+						{#each formData.forums as forum}
+							<option value={forum.id}>{forum.title}</option>
+						{/each}
+					</select>
+				</label>
+			{/if} 
+		</div>
+		
 		<label class="label">
 			<span>Thread Title</span>
 			<input class="input" type="text" bind:value={formData.title} placeholder="Your Title Here" />
