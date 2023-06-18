@@ -6,8 +6,7 @@
     export let player: Player 
     export let sbSession: SBSession
 
-    $playerProfileStore = player
-    $: $playerProfileStore
+   $: playerProfileStore.set(player)
 </script>
 
 <div class="card variant-ghost-surface space-y-4">

@@ -34,7 +34,7 @@
 	
 
 	export let data;
-	console.log('layout page ', data);
+	// console.log('layout page ', data);
 
 	$: ({ session } = data);
 

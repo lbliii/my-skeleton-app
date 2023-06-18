@@ -1,8 +1,8 @@
 import { modalStore } from '@skeletonlabs/skeleton';
 import type { ModalSettings } from '@skeletonlabs/skeleton';
 import { ApiVersion } from '$lib/enums';
-import type {Character, PlayerProfile, Forum, Forums, Thread} from '$lib/types'
-import { playerProfileStore } from '$lib/stores';
+import type {Character, Player, Forum, Forums, Thread} from '$lib/types'
+import { playerProfileStore, characterProfileStore } from '$lib/stores';
 
 export const handleError = (error: any): any => {
 	console.error(error);
@@ -83,18 +83,11 @@ export const generateAlias = (): string => {
 };
 
 export function modalCharacterCRUD(character?: Character): void {
-
-	let title
-	if (character){
-		title = `Edit ${character.first_name}`
-	} else {
-		title = 'Create a Character'
-	}
 	
 	const prompt: ModalSettings = {
 		type: 'component',
 		component: 'characterCRUD',
-		title: title,
+		title: character ? 'Edit Character' : 'Create a Character',
 		body: "",
 		value: {
 			character: character
@@ -102,20 +95,25 @@ export function modalCharacterCRUD(character?: Character): void {
 		response: (r: any) => {
 			if (r) {
 				console.log('response:', r);
-				fetch(`/api/${ApiVersion}/character/`, {
-					method: `${character ? 'PUT' : 'POST'}`,
+				const url = character?.id
+					? `/api/${ApiVersion}/character/${character.id}`
+					: `/api/${ApiVersion}/character`;
+				const method = character?.id ? 'PUT' : 'POST';
+				fetch(url, {
+					method: method,
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify(r)
 				});
+				characterProfileStore.set(r);
 			}
 		}
 	};
 	modalStore.trigger(prompt);
 }
 
-export function modalPlayerCRUD(player:PlayerProfile): void {
+export function modalPlayerCRUD(player:Player): void {
 	const prompt: ModalSettings = {
 		type: 'component',
 		component: 'playerCRUD',

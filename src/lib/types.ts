@@ -1,9 +1,9 @@
 import type {Gender, RelationshipStatus, Soul, Species} from './enums';
 
 export interface Character extends CharacterProfile{
-	id: number;
-	created_at: string;
-	player: Player;
+	id?: number;
+	created_at?: string;
+	player_id?: string;
 	threads?: Thread[];
 	updated_at?: string;
 }
@@ -38,13 +38,13 @@ export interface Forum {
 export interface Forums extends Array<Forum> {}
 
 export interface Player extends PlayerProfile {
-	player_id: string;
-	created_at: string;
+	player_id?: string;
+	created_at?: string;
 	updated_at?: string;
 }
 
 export interface PlayerProfile {
-	alias: string;
+	alias?: string;
 	age?: number;
 	avatar?: string;
 	bio?: string;

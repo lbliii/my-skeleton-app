@@ -12,7 +12,7 @@ export async function load(event) {
 		});
 
 	const fetchCharacters = await event.fetch(
-		`/api/${ApiVersion}/player/${event.params.slug}/characters`,
+		`/api/${ApiVersion}/characters/player/${event.params.slug}`,
 		{
 			method: 'GET',
 			headers: {
@@ -22,11 +22,11 @@ export async function load(event) {
 		}
 	);
 
-	const fetchThreads = await event.fetch(`/api/${ApiVersion}/player/${event.params.slug}/threads`, {
+	const fetchThreads = await event.fetch(`/api/${ApiVersion}/threads/player/${event.params.slug}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
-			'host': `${HostName}`
+			host: `${HostName}`
 		}
 	});
 

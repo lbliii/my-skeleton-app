@@ -10,9 +10,7 @@
   let threads: Threads = data?.threads
   let characters: Characters = data?.characters
   let forums: Forums = data?.forums
-  let sbSession = data?.session
-
-  console.log(data)
+  let sbSession:SBSession = data?.session
 
 </script>
 

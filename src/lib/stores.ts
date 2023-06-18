@@ -1,14 +1,8 @@
 import { writable } from 'svelte/store';
-import type {PlayerProfile} from '$lib/types'
+import type {Player, Character,} from '$lib/types'
 import type {Writable} from 'svelte/store'
-
-export const playerProfileStore: Writable<PlayerProfile> = writable({
-    alias: '',
-    age: 0,
-    avatar: '',
-    bio: '',
-    characters: [],
-    dislikes: '',
-    likes: '',
-    time_zone: ''
+export const playerProfileStore: Writable<Player> = writable({
 });
+
+export const characterProfileStore: Writable<Character> = writable({
+})

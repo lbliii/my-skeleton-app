@@ -20,9 +20,9 @@ export const GET: RequestHandler = async ({ locals: { sb, session }, params }) =
 		throw error(404, { message: 'No threads found' });
 	}
 
-    if (threads.length < 1) {
-			return new Response(JSON.stringify([]));
-		}
+	if (threads.length < 1) {
+		return new Response(JSON.stringify([]));
+	}
 
 	if (error) {
 		throw error;

@@ -9,17 +9,19 @@
 	// Stores
 	import { modalStore } from '@skeletonlabs/skeleton';
 
+	const character = $modalStore[0]?.value?.character
+
 	// Form Data
 	const formData = {
-		avatar: $modalStore[0]?.value?.character?.avatar ?? "https://cdn.midjourney.com/eaa42a60-2bae-4661-8b16-a88ea9ef45c1/grid_0.png",
-		first_name: $modalStore[0]?.value?.character?.firstName ?? "First Name",
-		last_name: $modalStore[0]?.value?.character?.lastName ?? "Last Name",
-		age: $modalStore[0]?.value?.character?.age ?? 23,	
-		gender: $modalStore[0]?.value?.character?.gender ?? "Fluid",
-		relationship_status: $modalStore[0]?.value?.character?.relationshipStatus ?? "Single",
-		species: $modalStore[0]?.value?.character?.species ?? "Human",
-		soul:  $modalStore[0]?.value?.character?.soul ?? "Mortal",
-		bio: $modalStore[0]?.value?.character?.bio ?? "A misunderstood orphan with big dreams." ,
+		avatar: character?.avatar ?? "https://cdn.midjourney.com/eaa42a60-2bae-4661-8b16-a88ea9ef45c1/grid_0.png",
+		first_name: character?.first_name, 
+		last_name: character?.last_name,
+		age: character?.age,	
+		gender: character?.gender,
+		relationship_status: character?.relationship_status,
+		species: character?.species,
+		soul: character?.soul,
+		bio: character?.bio,
 	};
 
 	// We've created a custom submit function to pass the response and close the modal.
@@ -43,23 +45,27 @@
 		<div class="flex flex-row space-x-4">
 			<label class="label flex-grow">
 				<span>First</span>
-				<input class="input" type="text" bind:value={formData.first_name} placeholder="Your Alias Here" />
+				<input class="input" type="text" bind:value={formData.first_name} placeholder="First Name" />
 			</label>
 			<label class="label flex-grow">
 				<span>Last</span>
-				<input class="input" type="text" bind:value={formData.last_name} placeholder="Your Alias Here" />
+				<input class="input" type="text" bind:value={formData.last_name} placeholder="Last Name" />
 			</label>
 		</div>
 		<div class="flex flex-row space-x-4">
 			<label class="label">
 				<span>Age</span>
-				<input class="input flex-grow" type="number" bind:value={formData.age} placeholder="Your Alias Here" />
+				<input class="input flex-grow" type="number" bind:value={formData.age} placeholder="1000" />
 			</label>
 			<label class="label flex flex-col flex-grow">
 				<span>Soul</span>
 				<select bind:value={formData.soul} class="select w-auto">
 					{#each soulOptions as soul}
-						<option value={soul}>{soul}</option>
+						{#if soul == "Mortal"}
+							<option value={soul} selected>{soul}</option>
+						{:else}
+							<option value={soul}>{soul}</option>
+						{/if}
 					{/each}
 				</select>
 			</label>
@@ -67,7 +73,11 @@
 				<span>Species</span>
 				<select bind:value={formData.species} class="select w-auto">
 					{#each speciesOptions as species}
-						<option value={species}>{species}</option>
+						{#if species == "Human"}
+							<option value={species} selected>{species}</option>
+						{:else}
+							<option value={species}>{species}</option>
+						{/if}
 					{/each}
 				</select>
 			</label>
@@ -77,7 +87,11 @@
 				<span>Gender</span>
 				<select bind:value={formData.gender} class="select w-auto">
 					{#each genderOptions as gender}
-						<option value={gender}>{gender}</option>
+						{#if gender == "Cisgender"}
+							<option value={gender} selected>{gender}</option>
+						{:else}
+							<option value={gender}>{gender}</option>
+						{/if}
 					{/each}
 				</select>
 			</label>
@@ -85,14 +99,18 @@
 				<span>Relationship Status</span>
 				<select bind:value={formData.relationship_status} class="select w-auto">
 					{#each relationshipStatusOptions as relationshipStatus}
-						<option value={relationshipStatus}>{relationshipStatus}</option>
+						{#if relationshipStatus == "Single"}
+							<option value={relationshipStatus} selected>{relationshipStatus}</option>
+						{:else}
+							<option value={relationshipStatus}>{relationshipStatus}</option>
+						{/if}
 					{/each}
 				</select>
 			</label>
 		</div>
 		<label class="label">
 			<span>Bio</span>
-			<textarea class="input textarea" rows="5" bind:value={formData.bio} placeholder="Write a first, second, or third person post here as the character you selected to play." />
+			<textarea class="input textarea" rows="5" bind:value={formData.bio} placeholder="This can be an abstract representation, a slice of life, a script -- anything you want. Use this space to showcase the vibes & history of your character" />
 		</label>
 	</form>
 	<!-- prettier-ignore -->

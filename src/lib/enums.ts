@@ -32,8 +32,8 @@ export const relationshipStatusOptions: RelationshipStatus[] =[
 	'Widowed'
 ]
 
-export type Soul = 'Ghost' | 'Immortal' | 'Mortal' | 'Undead';
-export const soulOptions: Soul[] = ['Ghost', 'Immortal', 'Mortal', 'Undead'];
+export type Soul = 'Ghost' |'Fallen'| 'Immortal' | 'Mortal' | 'Undead';
+export const soulOptions: Soul[] = ['Ghost', 'Fallen', 'Immortal', 'Mortal', 'Undead'];
 
 export type Species =
 	| 'Alien'
