@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { genderOptions, relationshipStatusOptions, soulOptions, speciesOptions } from '$lib/enums';
+
     // Props
 	/** Exposes parent props to this component. */
 	export let parent: any;
@@ -13,6 +14,7 @@
 
 	// Form Data
 	const formData = {
+		id: character?.id,
 		avatar: character?.avatar ?? "https://cdn.midjourney.com/eaa42a60-2bae-4661-8b16-a88ea9ef45c1/grid_0.png",
 		first_name: character?.first_name, 
 		last_name: character?.last_name,
@@ -22,13 +24,23 @@
 		species: character?.species,
 		soul: character?.soul,
 		bio: character?.bio,
+		archive: false
 	};
 
 	// We've created a custom submit function to pass the response and close the modal.
 	function onFormSubmit(): void {
+		// if required fields don't have inputs, log in console 
+		// and return early to prevent submission
 		if ($modalStore[0].response) $modalStore[0].response(formData);
 		modalStore.close();
 	}
+
+	function onArchiveSubmit(): void {
+		formData.archive = true
+		if ($modalStore[0].response) $modalStore[0].response(formData);
+		modalStore.close();
+	}
+
 
 	// Base Classes
 	const cBase = 'card p-4 w-modal shadow-xl space-y-4';
@@ -41,11 +53,11 @@
 	<article>{$modalStore[0]?.body ?? '(body missing)'}</article>
 	<!-- Enable for debugging: -->
 	<!-- <pre>{JSON.stringify(formData, null, 2)}</pre> -->
-	<form class="modal-form {cForm}">
+	<form class="modal-form {cForm}" on:submit|preventDefault={onFormSubmit}>
 		<div class="flex flex-row space-x-4">
 			<label class="label flex-grow">
 				<span>First</span>
-				<input class="input" type="text" bind:value={formData.first_name} placeholder="First Name" />
+				<input class="input" type="text" bind:value={formData.first_name} placeholder="First Name" required />
 			</label>
 			<label class="label flex-grow">
 				<span>Last</span>
@@ -55,7 +67,7 @@
 		<div class="flex flex-row space-x-4">
 			<label class="label">
 				<span>Age</span>
-				<input class="input flex-grow" type="number" bind:value={formData.age} placeholder="1000" />
+				<input class="input flex-grow" type="number" bind:value={formData.age} placeholder="1000" required/>
 			</label>
 			<label class="label flex flex-col flex-grow">
 				<span>Soul</span>
@@ -110,13 +122,16 @@
 		</div>
 		<label class="label">
 			<span>Bio</span>
-			<textarea class="input textarea" rows="5" bind:value={formData.bio} placeholder="This can be an abstract representation, a slice of life, a script -- anything you want. Use this space to showcase the vibes & history of your character" />
+			<textarea class="input textarea" rows="5" bind:value={formData.bio} placeholder="This can be an abstract representation, a slice of life, a script -- anything you want. Use this space to showcase the vibes & history of your character" required />
 		</label>
 	</form>
 	<!-- prettier-ignore -->
 	<footer class="modal-footer {parent.regionFooter}">
+		{#if character?.id}
+			<button class="btn variant-filled-error {parent.buttonPositive}" on:click={onArchiveSubmit}> Archive</button>
+		{/if}
         <button class="btn {parent.buttonNeutral}" on:click={parent.onClose}>{parent.buttonTextCancel}</button>
-        <button class="btn {parent.buttonPositive}" on:click={onFormSubmit}>{$modalStore[0]?.value?.character? 'Update' : 'Create'} Character</button>
+        <button class="btn {parent.buttonPositive}" type="submit">{$modalStore[0]?.value?.character? 'Update' : 'Create'} Character</button>
     </footer>
 </div>
 

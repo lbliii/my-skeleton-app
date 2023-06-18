@@ -34,9 +34,6 @@ export const PUT: RequestHandler = async ({ locals: { sb, session }, params, req
 
 	const characterProfile = await request.json();
 
-	console.log("Character ID ", character_id)
-	console.log("Character Profile", characterProfile)
-
 	// Query the database for the player with the given ID
 	const { data: character, error: noCharacter } = await sb
 		.from('characters')
@@ -47,6 +44,30 @@ export const PUT: RequestHandler = async ({ locals: { sb, session }, params, req
 
 	if (noCharacter) {
 		throw noCharacter
+	}
+
+	return new Response(JSON.stringify(character));
+};
+
+
+export const DELETE: RequestHandler = async ({ locals: { sb, session }, params }) => {
+	const character_id = params.id;
+
+	if (!session) {
+		// the user is not signed in
+		throw error(401, { message: 'Unauthorized' });
+	}
+
+	// Query the database for the player with the given ID
+	const { data: character, error: noCharacter } = await sb
+		.from('characters')
+		.delete()
+		.eq('id', character_id)
+		.select()
+		.single();
+
+	if (noCharacter) {
+		throw noCharacter;
 	}
 
 	return new Response(JSON.stringify(character));

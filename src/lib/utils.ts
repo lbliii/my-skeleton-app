@@ -2,7 +2,7 @@ import { modalStore } from '@skeletonlabs/skeleton';
 import type { ModalSettings } from '@skeletonlabs/skeleton';
 import { ApiVersion } from '$lib/enums';
 import type {Character, Player, Forum, Forums, Thread} from '$lib/types'
-import { playerProfileStore, characterProfileStore } from '$lib/stores';
+import { playerProfileStore, characterProfileStore, playerCharactersStore } from '$lib/stores';
 
 export const handleError = (error: any): any => {
 	console.error(error);
@@ -107,6 +107,7 @@ export function modalCharacterCRUD(character?: Character): void {
 					body: JSON.stringify(r)
 				});
 				characterProfileStore.set(r);
+				playerCharactersStore.update((characters) => [...characters, r]);
 			}
 		}
 	};

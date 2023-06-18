@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Player, Threads, SBSession, Characters, Forums } from '$lib/types'
-  import PlayerCardDetails from '$lib/components/player/PlayerCardDetails.svelte'
+  import PlayerCardDetails from '$lib/components/player/PlayerCardDetails.svelte';
 	import PlayerThreadRowList from '$lib/components/player/PlayerThreadRowList.svelte';
   import PlayerCharacterRowList from '$lib/components/player/PlayerCharacterRowList.svelte';
 

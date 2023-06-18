@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { playerProfileStore } from '$lib/stores';
     import type { Player, SBSession } from '$lib/types'
     import { modalPlayerCRUD } from '$lib/utils'
+    import { playerProfileStore } from '$lib/stores';
 
     export let player: Player 
     export let sbSession: SBSession

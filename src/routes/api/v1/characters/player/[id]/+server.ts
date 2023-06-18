@@ -14,6 +14,8 @@ export const GET: RequestHandler = async ({ locals: { sb, session }, params }) =
 		.from('characters')
 		.select('*')
 		.eq('player_id', player_id)
+		.neq('archive', 'TRUE')
+		
 
 	if (noCharacters) {
 		throw error(404, { message: 'No threads found' });

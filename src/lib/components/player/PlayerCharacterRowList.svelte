@@ -3,9 +3,13 @@
 	export let characters: Characters = [];
 	export let player: Player;
 	export let sbSession: SBSession;
+
 	import { modalCharacterCRUD } from '$lib/utils';
+	import {playerCharactersStore} from '$lib/stores'
 
 	import { Avatar } from '@skeletonlabs/skeleton';
+
+	$: playerCharactersStore.set(characters);
 </script>
 
 <div class="card variant-ghost-surface">
@@ -21,7 +25,7 @@
 			{/if}
 		</div>
 
-		{#if characters.length < 1}
+		{#if $playerCharactersStore.length < 1}
 			<div class="card variant-soft p-4 my-4">
 				{#if player.player_id == sbSession.user.id}
 					Looks like you haven't created any characters yet! Create your first character to unlock
@@ -31,7 +35,7 @@
 				{/if}
 			</div>
 		{:else}
-			{#each characters as { id, avatar, first_name, last_name, age, soul, species, gender, relationship_status }}
+			{#each $playerCharactersStore as { id, avatar, first_name, last_name, age, soul, species, gender, relationship_status }}
 				<a href="/character/{id}" class="card card-hover variant-ghost p-4 my-4">
 					<dl class="flex flex-row items-center space-x-4">
 						<dt>
