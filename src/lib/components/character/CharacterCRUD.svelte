@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { genderOptions, relationshipStatusOptions, soulOptions, speciesOptions } from '$lib/enums';
     // Props
 	/** Exposes parent props to this component. */
 	export let parent: any;
@@ -14,10 +15,10 @@
 		first_name: $modalStore[0]?.value?.character?.firstName ?? "First Name",
 		last_name: $modalStore[0]?.value?.character?.lastName ?? "Last Name",
 		age: $modalStore[0]?.value?.character?.age ?? 23,	
-		gender: $modalStore[0]?.value?.character?.gender ?? "A Donut",
-		relationship_status: $modalStore[0]?.value?.character?.relationshipStatus ?? "single",
-		species: $modalStore[0]?.value?.character?.species ?? "Unicorn",
-		soul:  $modalStore[0]?.value?.character?.soul ?? "Undead",
+		gender: $modalStore[0]?.value?.character?.gender ?? "Fluid",
+		relationship_status: $modalStore[0]?.value?.character?.relationshipStatus ?? "Single",
+		species: $modalStore[0]?.value?.character?.species ?? "Human",
+		soul:  $modalStore[0]?.value?.character?.soul ?? "Mortal",
 		bio: $modalStore[0]?.value?.character?.bio ?? "A misunderstood orphan with big dreams." ,
 	};
 
@@ -49,10 +50,46 @@
 				<input class="input" type="text" bind:value={formData.last_name} placeholder="Your Alias Here" />
 			</label>
 		</div>
-		<label class="label">
-			<span>Age</span>
-			<input class="input flex-grow" type="number" bind:value={formData.age} placeholder="Your Alias Here" />
-		</label>
+		<div class="flex flex-row space-x-4">
+			<label class="label">
+				<span>Age</span>
+				<input class="input flex-grow" type="number" bind:value={formData.age} placeholder="Your Alias Here" />
+			</label>
+			<label class="label flex flex-col flex-grow">
+				<span>Soul</span>
+				<select bind:value={formData.soul} class="select w-auto">
+					{#each soulOptions as soul}
+						<option value={soul}>{soul}</option>
+					{/each}
+				</select>
+			</label>
+			<label class="label flex flex-col flex-grow">
+				<span>Species</span>
+				<select bind:value={formData.species} class="select w-auto">
+					{#each speciesOptions as species}
+						<option value={species}>{species}</option>
+					{/each}
+				</select>
+			</label>
+		</div>
+		<div class="flex flex-row space-x-4">
+			<label class="label flex flex-col flex-grow">
+				<span>Gender</span>
+				<select bind:value={formData.gender} class="select w-auto">
+					{#each genderOptions as gender}
+						<option value={gender}>{gender}</option>
+					{/each}
+				</select>
+			</label>
+			<label class="label flex flex-col flex-grow">
+				<span>Relationship Status</span>
+				<select bind:value={formData.relationship_status} class="select w-auto">
+					{#each relationshipStatusOptions as relationshipStatus}
+						<option value={relationshipStatus}>{relationshipStatus}</option>
+					{/each}
+				</select>
+			</label>
+		</div>
 		<label class="label">
 			<span>Bio</span>
 			<textarea class="input textarea" rows="5" bind:value={formData.bio} placeholder="Write a first, second, or third person post here as the character you selected to play." />
