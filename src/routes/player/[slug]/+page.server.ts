@@ -1,31 +1,46 @@
-import type { Player, Threads, Forums } from '$lib/types';
-import {ApiVersion} from '$lib/enums';
+import type { Player, Threads, Forums, Characters } from '$lib/types';
+import {ApiVersion, HostName} from '$lib/enums';
 
 
 export async function load(event) {
     const fetchPlayer = await event.fetch(`/api/${ApiVersion}/player/${event.params.slug}`, {
 			method: 'GET',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'host': `${HostName}`
 			}
 		});
 
-	const fetchThreads = await event.fetch(`/api/${ApiVersion}/player/${event.params.slug}/threads`, {
+	const fetchCharacters = await event.fetch(
+		`/api/${ApiVersion}/player/${event.params.slug}/characters`,
+		{
 			method: 'GET',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'host': `${HostName}`
 			}
-		});
+		}
+	);
+
+	const fetchThreads = await event.fetch(`/api/${ApiVersion}/player/${event.params.slug}/threads`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			'host': `${HostName}`
+		}
+	});
 
 	const fetchForums = await event.fetch(`/api/${ApiVersion}/forums`, {
 		method: 'GET',
 		headers: {
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
+			'host': `${HostName}`
 		}
 	});
 
     return {
 			player: await fetchPlayer.json() as Player,
+			characters: await fetchCharacters.json() as Characters,
 			threads: await fetchThreads.json() as Threads,
 			forums: await fetchForums.json() as Forums
 		};

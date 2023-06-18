@@ -4,6 +4,8 @@
     export let player: Player 
     export let sbSession: SBSession
     import {modalCharacterCRUD} from '$lib/utils'
+
+    console.log("chars ", characters)
 </script>
 
 <div class="card variant-ghost-surface">
@@ -27,10 +29,9 @@
                 {/if}
             </div>
         {:else}
-            {#each characters as character}
+            {#each characters as {first_name}}
                 <div class="card card-hover variant-ghost p-4 my-4">
-                    {character.firstName}
-                    {character.lastName}
+                    {first_name}
                 </div>
             {/each}
         {/if}

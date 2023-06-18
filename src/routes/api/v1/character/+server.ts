@@ -1,20 +1,24 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import type { Character } from '$lib/types';
+import type { CharacterDetails } from '$lib/types';
 
-export const POST = (({ url }) => {
-	const body = `The URL is: ${url}`;
+export const POST: RequestHandler = async ({ locals: { sb, session }, request }) => {
+	if (!session) {
+		// the user is not signed in
+		throw error(401, { message: 'Unauthorized' });
+	}
 
-	return new Response(JSON.stringify({ body }));
-}) satisfies RequestHandler;
+	const characterDetails: CharacterDetails = await request.json();
 
+	// Add a new character to the database
+	const { data, error: createCharacterError } = await sb
+		.from('characters')
+		.insert({ player_id: session.user.id, ...characterDetails })
+		.select()
+		.single();
 
-// Example POST method implementation:
-// const res = await event.fetch(`/api/${ApiVersion}/character`, {
-// 	method: 'POST',
-// 	body: JSON.stringify({ slug: event.params.slug }),
-// 	headers: {
-// 		'Content-Type': 'application/json'
-// 	}
-// });
-
+	if (createCharacterError) {
+		throw createCharacterError;
+	}
+	return new Response(JSON.stringify(data));
+};

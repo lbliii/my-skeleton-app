@@ -1,20 +1,23 @@
 import type {Gender, RelationshipStatus, Soul, Species} from './enums';
 
-export interface Character {
+export interface Character extends CharacterDetails{
 	id: number;
+	created_at: string;
+	player: Player;
+	threads?: Thread[];
+	updated_at?: string;
+}
+
+export interface CharacterDetails {
 	age?: number;
 	avatar?: string;
 	bio?: string;
-	createdAt: string;
-	firstName?: string;
+	first_name?: string;
 	gender?: Gender;
-	lastName?: string;
-	player: Player;
-	relationshipStatus?: RelationshipStatus;
-	soulType?: Soul;
+	last_name?: string;
+	relationship_status?: RelationshipStatus;
+	soul?: Soul;
 	species?: Species;
-	threads?: Thread[];
-	updatedAt?: string;
 }
 
 export interface Characters extends Array<Character> {}

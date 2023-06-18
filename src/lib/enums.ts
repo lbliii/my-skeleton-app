@@ -130,3 +130,5 @@ export const timeZoneOptions: TimeZone[] = [
 	'AEST',
 	'AWST'
 ]
+
+export const HostName = 'https://localhost:5173'

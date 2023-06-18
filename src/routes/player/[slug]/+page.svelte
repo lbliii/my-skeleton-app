@@ -12,6 +12,7 @@
   let forums: Forums = data?.forums
   let sbSession = data?.session
 
+  console.log(data)
 
 </script>
 

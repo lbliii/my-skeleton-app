@@ -1,10 +1,11 @@
-import { ApiVersion } from '$lib/enums';
+import { ApiVersion, HostName } from '$lib/enums';
 
 export async function load(event) {
     const res = await event.fetch(`/api/${ApiVersion}/forum/${event.params.slug}`, {
 			method: 'GET',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'host': `${HostName}`
 			}
 		});
     return {
