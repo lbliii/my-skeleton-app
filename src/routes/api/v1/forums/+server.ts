@@ -1,17 +1,14 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ locals: { sb, session } }) => {
+export const GET: RequestHandler = async ({ locals: { sb } }) => {
 
-	if (!session) {
-		// The user is not signed in
-		throw error(401, { message: 'Unauthorized' });
-	}
 
 	// Query the characters table and get a list of all characters with the matching player_id
 	const { data: forums, error: noForums } = await sb
 		.from('forums')
 		.select('*')
+		.neq('is_parent', 'true')
 
 	if (noForums) {
 		throw error(404, { message: 'No forums found' });

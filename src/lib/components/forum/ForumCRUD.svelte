@@ -14,7 +14,12 @@
         description: $modalStore[0]?.value?.forum?.description,
         hero_image: $modalStore[0]?.value?.forum?.hero_image,
 		parent: $modalStore[0]?.value?.forum?.parent,
+		is_parent: $modalStore[0]?.value?.forum?.is_parent,
 	};
+
+	$: {
+		formData.is_parent = formData.parent !== null;
+	}
 
 	// We've created a custom submit function to pass the response and close the modal.
 	function onFormSubmit(): void {

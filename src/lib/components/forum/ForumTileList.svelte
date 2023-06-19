@@ -11,7 +11,7 @@
 	$: forumsStore.set(forums)
 </script>
 
-{#if player.admin == true}
+{#if player?.admin === true}
 	<div class="flex flex-row-reverse">
 		<button class="chip variant-soft shadow-lg" on:click={() => modalForumCRUD({forums:forums})}>create forum</button>
 	</div>

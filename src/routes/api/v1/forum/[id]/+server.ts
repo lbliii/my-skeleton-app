@@ -1,13 +1,8 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ locals: { sb, session }, params }) => {
+export const GET: RequestHandler = async ({ locals: { sb }, params }) => {
 	const forum_id = params.id;
-
-	if (!session) {
-		// the user is not signed in
-		throw error(401, { message: 'Unauthorized' });
-	}
 
 	// Query the database for the player with the given ID
 	const { data: forum, error: noForum } = await sb
