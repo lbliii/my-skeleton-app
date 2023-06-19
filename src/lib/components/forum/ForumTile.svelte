@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Forum } from '$lib/types';
 	export let forum: Forum;
+
 </script>
 
 <div
@@ -8,7 +9,8 @@
 	style="background-image: url('{forum?.hero_image}'); background-size: cover;"
 >
 	<div class="w-full h-full hover:bg-black/70 rounded-md">
-		<a href="/forum/{forum?.id}" class="card">
+		<a data-sveltekit-reload href="/forum/{forum?.id}" class="card">
+			
 			<div
 				class="variant-ghost rounded-md w-full h-full opacity-0 hover:opacity-100 flex flex-col justify-center items-center p-2"
 			>
@@ -16,5 +18,6 @@
 				<p class="text-center text-primary-600 mt-1">{forum?.description}</p>
 			</div>
 		</a>
+	
 	</div>
 </div>
