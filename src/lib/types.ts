@@ -23,16 +23,16 @@ export interface CharacterProfile{
 export interface Characters extends Array<Character> {}
 
 export interface Forum {
-	id: number;
-	createdAt: string;
+	id?: number;
+	created_at?: string;
 	description?: string;
-	heroImage?: string;
-	isParent?: boolean;
-	ownerId?: number;
+	hero_image?: string;
+	is_parent?: boolean;
+	owner_id?: number;
 	owner?: Player;
 	parent?: Forum;
-	title: string;
-	updatedAt?: string;
+	title?: string;
+	updated_at?: string;
 }
 
 export interface Forums extends Array<Forum> {}
@@ -41,6 +41,7 @@ export interface Player extends PlayerProfile {
 	player_id?: string;
 	created_at?: string;
 	updated_at?: string;
+	admin?: boolean;
 }
 
 export interface PlayerProfile {

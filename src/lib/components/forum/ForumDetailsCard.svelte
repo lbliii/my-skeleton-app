@@ -5,7 +5,7 @@
 
 <div
 	class="w-4/1 aspect-[21/5] lg:aspect-[21/3] rounded-md"
-	style="background-image: url('{forum?.heroImage}'); background-size: cover;"
+	style="background-image: url('{forum?.hero_image}'); background-size: cover;"
 >
 	<div
 		class="variant-ghost rounded-md w-full h-full flex flex-col justify-center items-start pl-5 lg:pl-20 "

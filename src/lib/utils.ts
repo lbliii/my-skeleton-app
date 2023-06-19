@@ -2,7 +2,7 @@ import { modalStore } from '@skeletonlabs/skeleton';
 import type { ModalSettings } from '@skeletonlabs/skeleton';
 import { ApiVersion } from '$lib/enums';
 import type {Character, Player, Forum, Forums, Thread} from '$lib/types'
-import { playerProfileStore, characterProfileStore, playerCharactersStore } from '$lib/stores';
+import { playerProfileStore, characterProfileStore, playerCharactersStore, forumStore, forumsStore } from '$lib/stores';
 
 export const handleError = (error: any): any => {
 	console.error(error);
@@ -114,6 +114,41 @@ export function modalCharacterCRUD(character?: Character): void {
 	modalStore.trigger(prompt);
 }
 
+export function modalForumCRUD(forums?: Forums, forum?: Forum): void {
+	const prompt: ModalSettings = {
+		type: 'component',
+		component: 'forumCRUD',
+		title: forum ? 'Edit Forum' : 'Create a Forum',
+		body: '',
+		value: {
+			forum: forum,
+			forums: forums
+		},
+		response: async (r: any) => {
+			if (r) {
+				console.log('response:', r);
+				const url = forum?.id ? `/api/${ApiVersion}/forum/${forum.id}` : `/api/${ApiVersion}/forum`;
+				const method = forum?.id ? 'PUT' : 'POST';
+				const response = await fetch(url, {
+					method: method,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(r)
+				});
+				const addedForum = await response.json();
+
+				if (addedForum) {
+					forumStore.set(addedForum);
+					forumsStore.update((forums) => [...forums, addedForum]);
+				}
+			}
+		}
+	};
+	modalStore.trigger(prompt);
+}
+
+
 export function modalPlayerCRUD(player:Player): void {
 	const prompt: ModalSettings = {
 		type: 'component',
@@ -139,7 +174,6 @@ export function modalPlayerCRUD(player:Player): void {
 	};
 	modalStore.trigger(prompt);
 }
-
 
 export function modalThreadCRUD(options: { forums?: Forums; forum?: Forum; thread?: Thread }): void {
 	const { forums, forum, thread } = options;

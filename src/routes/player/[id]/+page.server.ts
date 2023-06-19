@@ -3,7 +3,7 @@ import {ApiVersion, HostName} from '$lib/enums';
 
 
 export async function load(event) {
-    const fetchPlayer = await event.fetch(`/api/${ApiVersion}/player/${event.params.slug}`, {
+    const fetchPlayer = await event.fetch(`/api/${ApiVersion}/player/${event.params.id}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ export async function load(event) {
 		});
 
 	const fetchCharacters = await event.fetch(
-		`/api/${ApiVersion}/characters/player/${event.params.slug}`,
+		`/api/${ApiVersion}/characters/player/${event.params.id}`,
 		{
 			method: 'GET',
 			headers: {
@@ -22,7 +22,7 @@ export async function load(event) {
 		}
 	);
 
-	const fetchThreads = await event.fetch(`/api/${ApiVersion}/threads/player/${event.params.slug}`, {
+	const fetchThreads = await event.fetch(`/api/${ApiVersion}/threads/player/${event.params.id}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',

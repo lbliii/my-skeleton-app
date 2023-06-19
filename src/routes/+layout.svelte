@@ -25,6 +25,7 @@
 	import ThreadCRUD from '$lib/components/thread/ThreadCRUD.svelte';
 	import PlayerCRUD from '$lib/components/player/PlayerCRUD.svelte';
 	import CharacterCRUD from '$lib/components/character/CharacterCRUD.svelte';
+	import ForumCRUD from '$lib/components/forum/ForumCRUD.svelte';
 	
 	import UserSettings from '$lib/components/navigation/UserSettings.svelte';
 	
@@ -68,6 +69,14 @@
 		playerCRUD: {
 			// Pass a reference to your custom component
 			ref: PlayerCRUD,
+			// Add the component properties as key/value pairs
+			props: {},
+			// Provide a template literal for the default component slot
+			slot: ``
+		},
+		forumCRUD: {
+			// Pass a reference to your custom component
+			ref: ForumCRUD,
 			// Add the component properties as key/value pairs
 			props: {},
 			// Provide a template literal for the default component slot
