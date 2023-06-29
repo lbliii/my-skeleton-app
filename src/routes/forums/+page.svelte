@@ -1,17 +1,20 @@
 <script lang="ts">
     import ForumTileList from '$lib/components/forum/ForumTileList.svelte';
-    import type { Forums, Player, SBSession } from '$lib/types';
-    import {forumsStore} from '$lib/stores'
+    import type { Forums, Player } from '$lib/types';
+    import {forumsStore, playerStore} from '$lib/stores'
 
-    export let data: { player: Player, session:SBSession, forums: Forums };
 
-    let player: Player = data?.player
-    let forums: Forums = data?.forums
+    let player: Player | null = $playerStore
+    let forums: Forums = $forumsStore
 
-    $: forumsStore.set(forums)
-
+    $:{
+        player = { ...player, ...$playerStore };
+        forums = $forumsStore
+    }
+    
 </script>
 
-<ForumTileList {forums} {player}/>
+<!-- todo: if landing on a top-level category, currentForum would not be null -->
+<ForumTileList currentForum={null} {forums} {player}/>
 
 

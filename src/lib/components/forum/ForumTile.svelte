@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Forum } from '$lib/types';
-	export let forum: Forum;
+	export let forum: Forum | null
 
 </script>
 

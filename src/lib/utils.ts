@@ -124,7 +124,8 @@ export function modalCharacterCRUD(character?: Character): void {
 	modalStore.trigger(prompt);
 }
 
-export function modalForumCRUD(forums?: Forums, forum?: Forum): void {
+export function modalForumCRUD(options: {forums?: Forums | null, forum?: Forum | null}): void {
+	const {forums, forum} = options;
 	const prompt: ModalSettings = {
 		type: 'component',
 		component: 'forumCRUD',
