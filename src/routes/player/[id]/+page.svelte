@@ -4,17 +4,19 @@
 	import PlayerThreadRowList from '$lib/components/player/PlayerThreadRowList.svelte';
   import PlayerCharacterRowList from '$lib/components/player/PlayerCharacterRowList.svelte';
 
-  import {playerCharactersStore} from '$lib/stores'
+  import {playerCharactersStore, playerStore, forumsStore, playerThreadsStore, seshStore} from '$lib/stores'
 
-  export let data: { player: Player, session:SBSession, threads: Threads, characters: Characters, forums: Forums };
+  let player: Player | null = $playerStore
+  let threads: Threads = $playerThreadsStore
+  let characters: Characters = $playerCharactersStore
+  let forums: Forums  = $forumsStore
+  let sbSession:SBSession | null = $seshStore
 
-  let player: Player = data?.player
-  let threads: Threads = data?.threads
-  let characters: Characters = data?.characters
-  let forums: Forums = data?.forums
-  let sbSession:SBSession = data?.session
-
-  $: playerCharactersStore.set(characters)
+   $:{
+        player = { ...player, ...$playerStore };
+        characters = $playerCharactersStore
+        threads = $playerThreadsStore
+    }
 
 </script>
 

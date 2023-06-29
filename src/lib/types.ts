@@ -6,6 +6,7 @@ export interface Character extends CharacterProfile{
 	player_id?: string;
 	threads?: Thread[];
 	updated_at?: string;
+	archive: boolean
 }
 
 export interface CharacterProfile{
@@ -75,7 +76,7 @@ export interface Thread {
 	createdAt: string;
 	description?: string;
 	forum: Forum;
-  likes?: number; // todo: total of all post likes.
+  	likes?: number; // todo: total of all post likes.
 	owner: Player;
 	title: string;
 	updatedAt?: string;

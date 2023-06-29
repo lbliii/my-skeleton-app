@@ -2,7 +2,7 @@ import { modalStore } from '@skeletonlabs/skeleton';
 import type { ModalSettings } from '@skeletonlabs/skeleton';
 import { ApiVersion } from '$lib/enums';
 import type {Character, Player, Forum, Forums, Thread} from '$lib/types'
-import { playerProfileStore, characterProfileStore, playerCharactersStore, forumStore, forumsStore } from '$lib/stores';
+import { playerStore, characterProfileStore, playerCharactersStore, forumStore, forumsStore } from '$lib/stores';
 
 export const handleError = (error: any): any => {
 	console.error(error);
@@ -92,25 +92,35 @@ export function modalCharacterCRUD(character?: Character): void {
 		value: {
 			character: character
 		},
-		response: (r: any) => {
+		response: async (r: any) => {
 			if (r) {
 				console.log('response:', r);
 				const url = character?.id
 					? `/api/${ApiVersion}/character/${character.id}`
 					: `/api/${ApiVersion}/character`;
 				const method = character?.id ? 'PUT' : 'POST';
-				fetch(url, {
+				const response = await fetch(url, {
 					method: method,
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify(r)
 				});
-				characterProfileStore.set(r);
-				playerCharactersStore.update((characters) => [...characters, r]);
+				const addedCharacter = await response.json()
+				characterProfileStore.set(addedCharacter);
+				if(!addedCharacter.archive) {
+					playerCharactersStore.update((characters) => [...characters, addedCharacter]);
+				} else {
+					playerCharactersStore.update((characters) => {
+						const index = characters.findIndex((c) => c.id === addedCharacter.id);
+						characters.splice(index, 1, addedCharacter);
+						return characters;
+					});
+				}
 			}
 		}
 	};
+
 	modalStore.trigger(prompt);
 }
 
@@ -149,7 +159,7 @@ export function modalForumCRUD(forums?: Forums, forum?: Forum): void {
 }
 
 
-export function modalPlayerCRUD(player:Player): void {
+export function modalPlayerCRUD(player:Player | null): void {
 	const prompt: ModalSettings = {
 		type: 'component',
 		component: 'playerCRUD',
@@ -161,21 +171,23 @@ export function modalPlayerCRUD(player:Player): void {
 		response: (r: any) => {
 			if (r) {
 				console.log('response:', r);
-				fetch(`/api/${ApiVersion}/player/${player.player_id}`, {
+				fetch(`/api/${ApiVersion}/player/${player?.player_id}`, {
 					method: `${player ? 'PUT' : 'POST'}`,
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify(r)
 				});
-				playerProfileStore.set(r);
+				playerStore.update((player) => {
+					return { ...player, ...r };
+				});
 			}
 		}
 	};
 	modalStore.trigger(prompt);
 }
 
-export function modalThreadCRUD(options: { forums?: Forums; forum?: Forum; thread?: Thread }): void {
+export function modalThreadCRUD(options: { forums?: Forums | null; forum?: Forum | null; thread?: Thread | null }): void {
 	const { forums, forum, thread } = options;
 	
 	const prompt: ModalSettings = {

@@ -1,9 +1,52 @@
 import { getServerSession } from "@supabase/auth-helpers-sveltekit";
-import type { LayoutServerLoad } from "./$types";
+// import type { LayoutServerLoad } from "./$types";
+import type { Player, Threads, Forums, Characters } from '$lib/types';
+import { ApiVersion, HostName } from '$lib/enums';
 
-// Pass the session, to the rest of our App, to the client from the server side
-export const load: LayoutServerLoad = async (event) => {
+export async function load(event) {
+
+	const session = await getServerSession(event);
+
+	const fetchPlayer = await event.fetch(`/api/${ApiVersion}/player/${session?.user.id}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			host: `${HostName}`
+		}
+	});
+
+	const fetchCharacters = await event.fetch(
+		`/api/${ApiVersion}/characters/player/${session?.user.id}`,
+		{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				host: `${HostName}`
+			}
+		}
+	);
+
+	const fetchThreads = await event.fetch(`/api/${ApiVersion}/threads/player/${session?.user.id}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			host: `${HostName}`
+		}
+	});
+
+	const fetchForums = await event.fetch(`/api/${ApiVersion}/forums`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			host: `${HostName}`
+		}
+	});
+
 	return {
-		session: await getServerSession(event),
-	}
-};
+		session: session,
+		player: (await fetchPlayer.json()) as Player,
+		characters: (await fetchCharacters.json()) as Characters,
+		threads: (await fetchThreads.json()) as Threads,
+		forums: (await fetchForums.json()) as Forums
+	};
+}

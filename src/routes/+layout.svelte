@@ -75,7 +75,7 @@
 	/// APP Bar
 	//// CRUD Settings
 	import {modalThreadCRUD} from '$lib/utils'
-	import {forumStore, playerCharactersStore} from '$lib/stores'
+	import {forumsStore, forumStore, playerCharactersStore, playerStore, playerThreadsStore, seshStore} from '$lib/stores'
 	//// User Settings
 	import UserSettings from '$lib/components/navigation/UserSettings.svelte';
 	
@@ -92,10 +92,26 @@
     return () => subscription.unsubscribe();
   })
 
-	export let data;
-	// console.log('layout page ', data);
+  	import type { Player, Threads, SBSession, Characters, Forums } from '$lib/types'
+	export let data: { player: Player, session:SBSession, threads: Threads, characters: Characters, forums: Forums };
+	let player: Player = data?.player
+	let threads: Threads = data?.threads
+	let characters: Characters = data?.characters
+	let forums: Forums = data?.forums
+	let sesh: SBSession = data?.session
+
 
 	$: ({ session } = data);
+
+	$: {
+		playerStore.set(player)
+		playerCharactersStore.set(characters)
+		playerThreadsStore.set(threads)
+		forumsStore.set(forums)
+		seshStore.set(sesh)
+	}
+
+	console.log(data)
 	
 </script>
 
