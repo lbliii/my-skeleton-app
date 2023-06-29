@@ -1,11 +1,12 @@
 <script lang="ts">
 
 	import ForumTile from './ForumTile.svelte';
-	import type { Forums, Player } from '$lib/types';
+	import type { Forum, Forums, Player } from '$lib/types';
 	import {modalForumCRUD} from '$lib/utils'
 	import {forumsStore} from '$lib/stores'
 
 	export let forums: Forums
+	export let forum: Forum
 	export let player: Player
 
 	$: forumsStore.set(forums)

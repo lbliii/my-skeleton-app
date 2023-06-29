@@ -15,39 +15,19 @@
 		Modal,
 		storePopup
 	} from '@skeletonlabs/skeleton';
-	import type { ModalComponent } from '@skeletonlabs/skeleton';
-	// Floating UI GLobal Imports
+
+	// Popup Global Settings
+	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
+	// Floating UI Global Imports
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 
-	// App-specific components
-	import Navigation from '$lib/components/navigation/Navigation.svelte';
-	// custom Modals
+	// CRUD Modal Global Components
+	import type { ModalComponent } from '@skeletonlabs/skeleton';
 	import ThreadCRUD from '$lib/components/thread/ThreadCRUD.svelte';
 	import PlayerCRUD from '$lib/components/player/PlayerCRUD.svelte';
 	import CharacterCRUD from '$lib/components/character/CharacterCRUD.svelte';
 	import ForumCRUD from '$lib/components/forum/ForumCRUD.svelte';
-	
-	import UserSettings from '$lib/components/navigation/UserSettings.svelte';
-	
-	import { supabase } from '$lib/supabase';
-	import { invalidateAll } from "$app/navigation";
-
-	
-
-	export let data;
-	// console.log('layout page ', data);
-
-	$: ({ session } = data);
-
-	// Create a subscription to taken action when our Auth State is changed while login/logout
-  onMount(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-      invalidateAll();
-    });
-
-    return () => subscription.unsubscribe();
-  })
-
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		// Custom Modal 1
 		characterCRUD: {
@@ -84,15 +64,39 @@
 		}
 	};
 
+	// AppShell Components & Settings
+	$: classesSidebar = $page.url.pathname === '/' ? 'w-0 lg:w-64' : 'w-0 lg:w-64';
+	/// Navbar
+	import Navigation from '$lib/components/navigation/Navigation.svelte';
 	function drawerOpen(): void {
 		drawerStore.open({});
 	}
 
-	// Popup Settings
+	/// APP Bar
+	//// CRUD Settings
+	import {modalThreadCRUD} from '$lib/utils'
+	import {forumStore, playerCharactersStore} from '$lib/stores'
+	//// User Settings
+	import UserSettings from '$lib/components/navigation/UserSettings.svelte';
+	
+	// Authentication Supabase
+	import { supabase } from '$lib/supabase';
+	import { invalidateAll } from "$app/navigation";
 
-	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+	/// Create a subscription to taken action when our Auth State is changed while login/logout
+	onMount(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      invalidateAll();
+    });
 
-	$: classesSidebar = $page.url.pathname === '/' ? 'w-0 lg:w-64' : 'w-0 lg:w-64';
+    return () => subscription.unsubscribe();
+  })
+
+	export let data;
+	// console.log('layout page ', data);
+
+	$: ({ session } = data);
+	
 </script>
 
 <Drawer>
@@ -123,6 +127,7 @@
 				</div>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
+				<button class="btn variant-ghost m-2" on:click={() => modalThreadCRUD({forum:$forumStore, characters: $playerCharactersStore})}>Create Thread</button>
 				<UserSettings session={data?.session} />
 			</svelte:fragment>
 		</AppBar>

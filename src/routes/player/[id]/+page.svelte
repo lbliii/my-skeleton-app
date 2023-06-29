@@ -4,6 +4,8 @@
 	import PlayerThreadRowList from '$lib/components/player/PlayerThreadRowList.svelte';
   import PlayerCharacterRowList from '$lib/components/player/PlayerCharacterRowList.svelte';
 
+  import {playerCharactersStore} from '$lib/stores'
+
   export let data: { player: Player, session:SBSession, threads: Threads, characters: Characters, forums: Forums };
 
   let player: Player = data?.player
@@ -11,6 +13,8 @@
   let characters: Characters = data?.characters
   let forums: Forums = data?.forums
   let sbSession:SBSession = data?.session
+
+  $: playerCharactersStore.set(characters)
 
 </script>
 

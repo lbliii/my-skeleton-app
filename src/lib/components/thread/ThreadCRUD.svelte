@@ -7,6 +7,7 @@
 
 	// Stores
 	import { modalStore } from '@skeletonlabs/skeleton';
+	import { playerCharactersStore } from '$lib/stores';
 
 	// Form Data
 	const formData = {
@@ -41,11 +42,11 @@
 			<label class="label flex-grow">
 				<span>Character</span>
 				<select class="select" bind:value={formData.characterId} required>
-					{#if $modalStore[0]?.value?.characters.length === 0}
+					{#if $playerCharactersStore.length === 0}
 						<option value="0">No Characters</option>
-					{:else if $modalStore[0]?.value?.characters.length > 0}
-						{#each $modalStore[0]?.value?.characters as character}
-							<option value={character.id}>{character.firstName} {character.lastName}</option>
+					{:else if $playerCharactersStore.length > 0}
+						{#each $playerCharactersStore as character}
+							<option value={character.id}>{character.first_name} {character.last_name}</option>
 						{/each}
 					{/if}
 				</select>

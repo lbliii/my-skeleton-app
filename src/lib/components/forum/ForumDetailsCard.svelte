@@ -10,6 +10,7 @@
 	<div
 		class="variant-ghost rounded-md w-full h-full flex flex-col justify-center items-start pl-5 lg:pl-20 "
 	>
+	
 		<h2 class="text-lg font-bold text-white">{forum?.title}</h2>
 		<p class="text-center text-white mt-1">{forum?.description}</p>
 	</div>

@@ -1,8 +1,9 @@
 <script lang="ts">
+	import type { SBSession } from '$lib/types';
 	import { popup, Avatar, LightSwitch } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
-	export let session: any;
+	export let session: SBSession;
 
 	$: session 
 
