@@ -103,15 +103,18 @@
 
 	$: ({ session } = data);
 
-	$: {
+	console.log(data)
+
+	$: { 
+
+		({ session } = data);
+
 		playerStore.set(player)
 		playerCharactersStore.set(characters)
 		playerThreadsStore.set(threads)
 		forumsStore.set(forums)
 		seshStore.set(sesh)
 	}
-
-	console.log(data)
 	
 </script>
 

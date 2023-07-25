@@ -17,7 +17,9 @@
                 </div>
             {/if}
         </div>
-        {#if threads.length < 1 || threads == null }
+        {#if !player?.player_id }
+        <!-- do nothing -->
+        {:else if threads && threads.length < 1 || threads == null }
             <div class="card card-hover variant-ghost p-2">
                 {#if player?.player_id == sbSession?.user.id} 
                     Looks like you haven't joined or started any threads yet!
