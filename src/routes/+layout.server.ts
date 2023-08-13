@@ -1,4 +1,4 @@
-import { getServerSession } from "@supabase/auth-helpers-sveltekit";
+
 // import type { LayoutServerLoad } from "./$types";
 import type { Player, Threads, Forums, Characters } from '$lib/types';
 import { ApiVersion, HostName } from '$lib/enums';
