@@ -1,7 +1,8 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ locals: { sb, session }, params }) => {
+export const GET: RequestHandler = async ({ locals: { supabase, getSession }, params }) => {
+	const session = getSession();
 	const player_id = params.id;
 
 	if (!session) {
@@ -10,7 +11,7 @@ export const GET: RequestHandler = async ({ locals: { sb, session }, params }) =
 	}
 
 	// Query the threads table and get a list of all threads with the matching player_id
-	const { data: threads, error: noThreads } = await sb
+	const { data: threads, error: noThreads } = await supabase
 		.from('threads')
 		.select('*')
 		.eq('player_id', player_id)

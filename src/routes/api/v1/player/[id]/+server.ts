@@ -3,8 +3,10 @@ import {generateAlias} from '$lib/utils';
 import type { RequestHandler } from './$types';
 import { error } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ locals: { sb, session }, params }) => {
+export const GET: RequestHandler = async ({ locals: { supabase, getSession }, params }) => {
+	const session = getSession()
 	const player_id = params.id;
+
 	
 	if (!session) {
 		// the user is not signed in
@@ -12,7 +14,7 @@ export const GET: RequestHandler = async ({ locals: { sb, session }, params }) =
 	}
 
 	// Query the database for the player with the given ID
-	const { data: player, error: noPlayer } = await sb
+	const { data: player, error: noPlayer } = await supabase
 		.from('players')
 		.select('*')
 		.eq('player_id', player_id)
@@ -22,7 +24,7 @@ export const GET: RequestHandler = async ({ locals: { sb, session }, params }) =
 		// If no player with this ID exists, generate a new alias and insert it into the database
 		const alias = generateAlias();
 
-		const { data: newPlayer, error: newPlayerError } = await sb
+		const { data: newPlayer, error: newPlayerError } = await supabase
 			.from('players')
 			.insert({ player_id, alias })
 			.select('*')
@@ -40,9 +42,10 @@ export const GET: RequestHandler = async ({ locals: { sb, session }, params }) =
 };
 
 
-export const PUT: RequestHandler = async ({ locals: { sb, session }, params, request }) => {
+export const PUT: RequestHandler = async ({ locals: { supabase, getSession }, params, request }) => {
 	const player_id = params.id;
-	
+
+	const session = getSession()
 	if (!session) {
 		// the user is not signed in
 		throw error(401, { message: 'Unauthorized' });
@@ -51,7 +54,7 @@ export const PUT: RequestHandler = async ({ locals: { sb, session }, params, req
   	const playerProfile = await request.json();
 
 	// Query the database for the player with the given ID
-	const { data, error: editPlayerError } = await sb
+	const { data, error: editPlayerError } = await supabase
 		.from('players')
 		.update({ ...playerProfile })
 		.eq('player_id', player_id)

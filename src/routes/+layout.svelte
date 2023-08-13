@@ -80,17 +80,7 @@
 	import UserSettings from '$lib/components/navigation/UserSettings.svelte';
 	
 	// Authentication Supabase
-	import { supabase } from '$lib/supabase';
-	import { invalidateAll } from "$app/navigation";
-
-	/// Create a subscription to taken action when our Auth State is changed while login/logout
-	onMount(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-      invalidateAll();
-    });
-
-    return () => subscription.unsubscribe();
-  })
+	import { invalidate } from "$app/navigation";
 
   	import type { Player, Threads, SBSession, Characters, Forums } from '$lib/types'
 	export let data: { player: Player, session:SBSession, threads: Threads, characters: Characters, forums: Forums };
@@ -99,15 +89,23 @@
 	let characters: Characters = data?.characters
 	let forums: Forums = data?.forums
 	let sesh: SBSession = data?.session
+	let supabase = data?.supabase
 
+	onMount(() => {
+		const {
+		data: { subscription },
+		} = supabase.auth.onAuthStateChange((event, _session) => {
+		if (_session?.expires_at !== session?.expires_at) {
+			invalidate('supabase:auth')
+		}
+		});
 
-	$: ({ session } = data);
+		return () => subscription.unsubscribe();
+	});
 
 	console.log(data)
 
 	$: { 
-
-		({ session } = data);
 
 		playerStore.set(player)
 		playerCharactersStore.set(characters)

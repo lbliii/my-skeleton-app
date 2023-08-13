@@ -1,7 +1,8 @@
 import type { RequestHandler } from './$types';
 import { error } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ locals: { sb, session } }) => {
+export const GET: RequestHandler = async ({ locals: { supabase, getSession } }) => {
+	const session = await getSession()
 	const player_id = session?.user.id;
 
 	if (!session) {
@@ -10,14 +11,14 @@ export const GET: RequestHandler = async ({ locals: { sb, session } }) => {
 	}
 
 	// Query the database for the player with the given ID
-	const { data: player, error: noPlayer } = await sb
+	const { data: player, error: noPlayer } = await supabase
 		.from('players')
 		.select('*')
 		.eq('player_id', player_id)
 		.single();
 
 	if (noPlayer) {
-		throw noPlayer
+		throw noPlayer;
 	}
 
 	// Return the existing player data

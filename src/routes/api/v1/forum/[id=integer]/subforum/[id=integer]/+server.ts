@@ -1,10 +1,10 @@
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ locals: { sb }, params }) => {
+export const GET: RequestHandler = async ({ locals: { supabase }, params }) => {
 	const subForum_id = params.id;
 
 	// Query the database for the player with the given ID
-	const { data: subForum, error: noSubForum } = await sb
+	const { data: subForum, error: noSubForum } = await supabase
 		.from('forums')
 		.select('*')
 		.eq('id', subForum_id)

@@ -3,9 +3,9 @@
 import type { Player, Threads, Forums, Characters } from '$lib/types';
 import { ApiVersion, HostName } from '$lib/enums';
 
-export async function load(event) {
+export const load = async (event) => {
 
-	const session = await getServerSession(event);
+	const session = await event.locals.getSession();
 
 	const fetchPlayer = await event.fetch(`/api/${ApiVersion}/player/${session?.user.id}`, {
 		method: 'GET',

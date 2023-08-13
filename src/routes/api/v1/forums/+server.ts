@@ -1,11 +1,11 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ locals: { sb } }) => {
+export const GET: RequestHandler = async ({ locals: { supabase } }) => {
 
 
 	// Query the characters table and get a list of all characters with the matching player_id
-	const { data: forums, error: noForums } = await sb
+	const { data: forums, error: noForums } = await supabase
 		.from('forums')
 		.select('*')
 		.neq('is_parent', 'true')

@@ -1,15 +1,15 @@
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ locals: { sb }, params }) => {
+export const GET: RequestHandler = async ({ locals: { supabase }, params }) => {
 	const parent_id = params.id;
 
-	console.log("Forum Parent ID ", parent_id)
+	console.log('Forum Parent ID ', parent_id);
 
 	// Query the database for the player with the given ID
-	const { data: subForums, error: noSubForums } = await sb
+	const { data: subForums, error: noSubForums } = await supabase
 		.from('forums')
 		.select('*')
-		.eq('parent', parent_id)
+		.eq('parent', parent_id);
 
 	if (noSubForums) {
 		throw noSubForums;
